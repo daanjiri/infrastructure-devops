@@ -1,19 +1,44 @@
-data "aws_lb" "app_lb" {
-  name = "entrega-3-prod-alb"
-}
-
-data "aws_lb_listener" "prod" {
-  load_balancer_arn = data.aws_lb.app_lb.arn
-  port              = 80
-}
-
-data "aws_lb_listener" "test" {
-  load_balancer_arn = data.aws_lb.app_lb.arn
-  port              = 8080
-}
-
 data "aws_subnet" "example" {
   id = "subnet-099061aa370c6df86"
+}
+
+resource "aws_lb" "app_lb" {
+  name               = "ALB-entrega4"
+  internal           = false
+  load_balancer_type = "application"
+  security_groups    = ["sg-03ea60ad1eed89e39"]
+  subnets            = [
+    "subnet-099061aa370c6df86",
+    "subnet-0bf7b5d564333add7",
+    "subnet-091b277a72291b093",
+    "subnet-00ac6eab2259da0cc",
+    "subnet-0adb3a992e90cd8b6",
+    "subnet-0ee0cf6de88cc0e0f"
+  ]
+
+  enable_deletion_protection = false
+}
+
+resource "aws_lb_listener" "prod" {
+  load_balancer_arn = aws_lb.app_lb.arn
+  port              = "80"
+  protocol          = "HTTP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.blue.arn
+  }
+}
+
+resource "aws_lb_listener" "test" {
+  load_balancer_arn = aws_lb.app_lb.arn
+  port              = "8080"
+  protocol          = "HTTP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.green.arn
+  }
 }
 
 resource "aws_lb_target_group" "blue" {
@@ -51,11 +76,11 @@ resource "aws_codedeploy_deployment_group" "app_deployment_group" {
   load_balancer_info {
     target_group_pair_info {
       prod_traffic_route {
-        listener_arns = [data.aws_lb_listener.prod.arn]
+        listener_arns = [aws_lb_listener.prod.arn]
       }
 
       test_traffic_route {
-        listener_arns = [data.aws_lb_listener.test.arn]
+        listener_arns = [aws_lb_listener.test.arn]
       }
 
       target_group {
