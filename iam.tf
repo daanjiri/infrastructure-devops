@@ -52,6 +52,20 @@ resource "aws_iam_role_policy" "codebuild_policy" {
           "codestar-connections:ListConnections"
         ]
         Resource = "arn:aws:codeconnections:us-east-1:119255679784:connection/9e202fc7-75ce-416e-a9ee-16618fbc54d9"
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "s3:GetObject",
+          "s3:GetObjectVersion",
+          "s3:GetBucketVersioning",
+          "s3:PutObject",
+          "s3:PutObjectAcl"
+        ]
+        Resource = [
+          aws_s3_bucket.pipeline_bucket.arn,
+          "${aws_s3_bucket.pipeline_bucket.arn}/*"
+        ]
       }
     ]
   })
