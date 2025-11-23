@@ -66,7 +66,7 @@ resource "aws_codedeploy_deployment_group" "app_deployment_group" {
   app_name               = aws_codedeploy_app.app.name
   deployment_group_name  = "entrega4-deployment-group"
   service_role_arn       = aws_iam_role.codedeploy_role.arn
-  deployment_config_name = "CodeDeployDefault.ECSAllAtOnce"
+  deployment_config_name = "CodeDeployDefault.ECSCanary10Percent5Minutes"
 
   ecs_service {
     cluster_name = aws_ecs_cluster.app_cluster.name
