@@ -12,6 +12,10 @@ data "aws_lb_listener" "test" {
   port              = 8080
 }
 
+data "aws_subnet" "example" {
+  id = "subnet-099061aa370c6df86"
+}
+
 resource "aws_lb_target_group" "blue" {
   name        = "entrega4-blue-tg"
   port        = 8000
