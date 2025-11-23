@@ -51,7 +51,7 @@ resource "aws_iam_role_policy" "codebuild_policy" {
           "codestar-connections:GetConnection",
           "codestar-connections:ListConnections"
         ]
-        Resource = "arn:aws:codeconnections:us-east-1:119255679784:connection/9e202fc7-75ce-416e-a9ee-16618fbc54d9"
+        Resource = "arn:aws:codeconnections:us-east-1:119255679784:connection/504f6735-5ad2-4137-a711-773ac4a3ccfd"
       },
       {
         Effect = "Allow"
@@ -191,7 +191,7 @@ resource "aws_iam_role_policy" "pipeline_policy" {
         Action = [
           "codestar-connections:UseConnection"
         ]
-        Resource = "arn:aws:codeconnections:us-east-1:119255679784:connection/9e202fc7-75ce-416e-a9ee-16618fbc54d9"
+        Resource = "arn:aws:codeconnections:us-east-1:119255679784:connection/504f6735-5ad2-4137-a711-773ac4a3ccfd"
       },
       {
         Effect = "Allow"

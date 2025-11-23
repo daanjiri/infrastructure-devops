@@ -1,10 +1,23 @@
 resource "aws_codepipeline" "app_pipeline" {
-  name     = "entrega4-pipeline"
-  role_arn = aws_iam_role.pipeline_role.arn
+  name           = "entrega4-pipeline"
+  role_arn       = aws_iam_role.pipeline_role.arn
+  pipeline_type  = "V2"
 
   artifact_store {
     location = aws_s3_bucket.pipeline_bucket.bucket
     type     = "S3"
+  }
+
+  trigger {
+    provider_type = "CodeStarSourceConnection"
+    git_configuration {
+      source_action_name = "Source"
+      push {
+        branches {
+          includes = ["main"]
+        }
+      }
+    }
   }
 
   stage {
@@ -19,7 +32,7 @@ resource "aws_codepipeline" "app_pipeline" {
       output_artifacts = ["source_output"]
 
       configuration = {
-        ConnectionArn    = "arn:aws:codeconnections:us-east-1:119255679784:connection/9e202fc7-75ce-416e-a9ee-16618fbc54d9"
+        ConnectionArn    = "arn:aws:codeconnections:us-east-1:119255679784:connection/504f6735-5ad2-4137-a711-773ac4a3ccfd"
         FullRepositoryId = "daanjiri/MISW4304_202515_DevOps"
         BranchName       = "main"
       }
