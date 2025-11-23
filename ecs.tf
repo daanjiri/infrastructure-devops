@@ -99,6 +99,8 @@ resource "aws_ecs_service" "app_service" {
   deployment_controller {
     type = "CODE_DEPLOY"
   }
+
+  depends_on = [aws_lb_listener.prod, aws_lb_listener.test]
 }
 
 resource "aws_cloudwatch_log_group" "ecs_log_group" {

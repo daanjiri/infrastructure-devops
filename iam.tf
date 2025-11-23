@@ -96,9 +96,43 @@ resource "aws_iam_role" "codedeploy_role" {
   })
 }
 
-resource "aws_iam_role_policy_attachment" "codedeploy_role_policy" {
-  role       = aws_iam_role.codedeploy_role.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSCodeDeployRoleForECS"
+resource "aws_iam_role_policy" "codedeploy_inline_policy" {
+  role = aws_iam_role.codedeploy_role.name
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "ecs:DescribeServices",
+          "ecs:CreateTaskSet",
+          "ecs:UpdateServicePrimaryTaskSet",
+          "ecs:DeleteTaskSet",
+          "elasticloadbalancing:DescribeTargetGroups",
+          "elasticloadbalancing:DescribeListeners",
+          "elasticloadbalancing:ModifyListener",
+          "elasticloadbalancing:DescribeRules",
+          "lambda:InvokeFunction",
+          "cloudwatch:DescribeAlarms",
+          "sns:Publish",
+          "s3:GetObject",
+          "s3:GetObjectMetadata",
+          "s3:GetObjectVersion"
+        ]
+        Resource = "*"
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "iam:PassRole"
+        ]
+        Resource = [
+          aws_iam_role.ecs_task_execution_role.arn
+        ]
+      }
+    ]
+  })
 }
 
 resource "aws_iam_role" "pipeline_role" {
