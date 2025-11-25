@@ -49,6 +49,18 @@ resource "aws_ecs_task_definition" "app_task" {
         {
           name  = "PGSSLMODE"
           value = "require"
+        },
+        {
+          name  = "NEW_RELIC_LICENSE_KEY"
+          value = "8FBA1B2499052DC77888D3FDD50FED9532CAF15CAF6027AE00E5AD8856AF8E71"
+        },
+        {
+          name  = "NEW_RELIC_APP_NAME"
+          value = "entrega4-service"
+        },
+        {
+          name  = "NEW_RELIC_DISTRIBUTED_TRACING_ENABLED"
+          value = "true"
         }
       ]
       logConfiguration = {
@@ -98,6 +110,10 @@ resource "aws_ecs_service" "app_service" {
 
   deployment_controller {
     type = "CODE_DEPLOY"
+  }
+
+  lifecycle {
+    ignore_changes = [task_definition, load_balancer]
   }
 
   depends_on = [aws_lb_listener.prod, aws_lb_listener.test]
