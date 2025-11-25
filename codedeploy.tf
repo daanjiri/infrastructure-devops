@@ -28,6 +28,10 @@ resource "aws_lb_listener" "prod" {
     type             = "forward"
     target_group_arn = aws_lb_target_group.green.arn
   }
+
+  lifecycle {
+    ignore_changes = [default_action]
+  }
 }
 
 resource "aws_lb_listener" "test" {
@@ -38,6 +42,10 @@ resource "aws_lb_listener" "test" {
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.blue.arn
+  }
+
+  lifecycle {
+    ignore_changes = [default_action]
   }
 }
 
