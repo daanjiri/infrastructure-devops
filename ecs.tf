@@ -52,7 +52,7 @@ resource "aws_ecs_task_definition" "app_task" {
         },
         {
           name  = "NEW_RELIC_LICENSE_KEY"
-          value = "8FBA1B2499052DC77888D3FDD50FED9532CAF15CAF6027AE00E5AD8856AF8E71"
+          value = "058f8709f69d26a6bfffab00867b1cb2FFFFNRAL"
         },
         {
           name  = "NEW_RELIC_APP_NAME"
@@ -61,6 +61,14 @@ resource "aws_ecs_task_definition" "app_task" {
         {
           name  = "NEW_RELIC_DISTRIBUTED_TRACING_ENABLED"
           value = "true"
+        },
+        {
+          name  = "NEW_RELIC_LOG"
+          value = "stdout"
+        },
+        {
+          name  = "NEW_RELIC_LOG_LEVEL"
+          value = "info"
         }
       ]
       logConfiguration = {
