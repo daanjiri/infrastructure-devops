@@ -33,7 +33,7 @@ resource "aws_codepipeline" "app_pipeline" {
 
       configuration = {
         ConnectionArn    = "arn:aws:codeconnections:us-east-1:119255679784:connection/504f6735-5ad2-4137-a711-773ac4a3ccfd"
-        FullRepositoryId = "daanjiri/MISW4304_202515_DevOps"
+        FullRepositoryId = "drvillota/MISW4304_202515_DevOps_Equipo_Noble"
         BranchName       = "main"
       }
     }
